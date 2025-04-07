@@ -15,11 +15,19 @@ complaint_draft = ""
 
 if uploaded_file:
     image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_column_width=True)
+    st.image(image, caption="Uploaded Image", use_container_width=True)
     
     # Draft Complaint with Gemini
     with st.spinner("Generating complaint draft..."):
-        prompt = "Generate a formal complaint based on the image provided. Assume it's related to a public issue."
+        prompt = (
+    "You are a citizen reporting a public issue through a formal complaint."
+    " The image provided shows a Foot Over Bridge (FOB) that is either degraded, broken,"
+    " misused by the public (like loitering or encroachment), or poorly maintained."
+    " Draft a complaint letter that includes the location if visible, describes the condition,"
+    " the risks it poses to pedestrians (especially elderly or disabled), and request authorities"
+    " to take prompt action to repair or manage the situation."
+    )
+
         response = model.generate_content([prompt, image])
         complaint_draft = response.text.strip()
     
